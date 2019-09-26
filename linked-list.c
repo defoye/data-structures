@@ -32,8 +32,6 @@ void freeNode(struct Node *node) {
 
 void deleteNode(struct Node *node) {
 	if(node == NULL) { return; }
-//	struct Node *prev = node->prev;
-//	struct Node *next = node->next;
 	
 	if(node->prev != NULL) {
 		node->prev->next = node->next;
@@ -53,7 +51,6 @@ void deleteList(struct Node *node) {
 	while(node != NULL) {
 		next = node->next;
 		deleteNode(node);
-		printf("deleted");
 		node = next;
 	}
 }
@@ -62,7 +59,6 @@ void printList(struct Node *head) {
 	struct Node *curr = head;
 	
 	while(curr != NULL) {
-		printf("*(curr->data): %d\n", *(curr->data));
 		curr = curr->next;
 	}
 }
