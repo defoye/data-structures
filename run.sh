@@ -1,2 +1,6 @@
-gcc -g -o ll linked-list.c
-valgrind --leak-check=yes --track-origins=yes ./ll
+gcc -g -o main main.c linked-list.c test-linked-list.c
+
+#echo "	===	===	===	 "
+./ll
+#echo "	===	===	===	 "
+

@@ -4,17 +4,8 @@
 #include <string.h>
 #include <sys/types.h>
 #include <unistd.h>
+#include "linked-list.h"
 
-struct Node {
-    int *data;
-    struct Node *next;
-	struct Node *prev;
-};
-
-struct LinkedList {
-  	struct Node *head;
-  	struct Node *tail;
-};
 
 struct Node* createNode() {
 	struct Node *node = (struct Node*)malloc(sizeof(struct Node*));
@@ -121,49 +112,4 @@ struct Node* createList(int size) {
   	}
 	
   	return head;
-}
-
-/**
- *	Tests
- */
-
-void testLength() {
-	struct Node *head1 = createList(15);
-	struct Node *head2 = createList(0);
-	struct Node *head3 = createList(-1);
-	
-	assert(listLen(head1) == 15);
-	assert(listLen(head2) == 0);
-	assert(listLen(head3) == 0);
-
-	deleteList(head1);
-	deleteList(head2);
-	deleteList(head3);
-}
-
-void testPtr() {
-	struct Node *node = createNode();
-	struct Node *head = node;
-
-	*(node->data) = 5;
-	
-	assert(head == node);
-	assert(*(head->data) == *(node->data));
-}
-
-void testInitDeinit() {
-	struct Node *head = createList(10);
-	
-	deleteList(head);
-	
-	assert(head != NULL);
-}
-
-int main(void) {
-
-//	testPtr();
-//	testInitDeinit();
-	testLength();
-	
-  	return 0;
 }
