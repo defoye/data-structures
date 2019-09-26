@@ -24,6 +24,28 @@ struct Node* createNode() {
 	
 	return node;
 }
+void insertNode(struct Node *place, struct Node *node) {
+	if(place == NULL) { return; }
+	
+	if(place->prev != NULL) {
+		place->prev->next = node;
+	}
+	
+	place->prev = node;
+}
+
+void insertNodeAtIndex(struct Node *head, struct Node *node, int index) {
+	struct Node *curr = node;
+	
+	while(curr != NULL) {
+		if(index == 0) {
+			// place node
+			insertNode(curr,node);
+		}
+		
+		index--;
+	}
+}
 
 void freeNode(struct Node *node) {
 	free(node->data);
@@ -55,6 +77,18 @@ void deleteList(struct Node *node) {
 	}
 }
 
+int listLen(struct Node *node) {
+	int count = 0;
+	struct Node *curr = node;
+	
+	while(curr != NULL) {
+		count++;
+		curr = curr->next;
+	}
+
+	return count;
+}
+
 void printList(struct Node *head) {
 	struct Node *curr = head;
 	
@@ -63,13 +97,15 @@ void printList(struct Node *head) {
 	}
 }
 
-struct Node* dummyData() {
+struct Node* createList(int size) {
+	if(size <= 0) { return NULL; }
+	
 	struct Node *head = NULL;
   	struct Node *curr = NULL;
   	struct Node *prev = NULL;
   	int i;
   
-  	for (i = 0; i < 10; i++) {
+  	for (i = 0; i < size; i++) {
   		curr = (struct Node*)malloc(sizeof(struct Node));
 		curr->data = (int*)malloc(sizeof(int));
   		*(curr->data) = i;
@@ -87,6 +123,24 @@ struct Node* dummyData() {
   	return head;
 }
 
+/**
+ *	Tests
+ */
+
+void testLength() {
+	struct Node *head1 = createList(15);
+	struct Node *head2 = createList(0);
+	struct Node *head3 = createList(-1);
+	
+	assert(listLen(head1) == 15);
+	assert(listLen(head2) == 0);
+	assert(listLen(head3) == 0);
+
+	deleteList(head1);
+	deleteList(head2);
+	deleteList(head3);
+}
+
 void testPtr() {
 	struct Node *node = createNode();
 	struct Node *head = node;
@@ -98,14 +152,18 @@ void testPtr() {
 }
 
 void testInitDeinit() {
-	struct Node *head = dummyData();
+	struct Node *head = createList(10);
 	
 	deleteList(head);
+	
+	assert(head != NULL);
 }
 
 int main(void) {
 
 //	testPtr();
-	testInitDeinit();
+//	testInitDeinit();
+	testLength();
+	
   	return 0;
 }
